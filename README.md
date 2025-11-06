@@ -34,7 +34,7 @@ o	Fight using your monsters
 o	Heal your team between battles
 5.	Win battles to gain XP and unlock stronger monsters.
 
-🚀 Future Improvements
+    Future Improvements
 •	Add map navigation system (North, South, East, West)
 •	Include more monster types and elemental classes
 •	Implement a save/load feature
