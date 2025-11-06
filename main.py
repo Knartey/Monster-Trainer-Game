@@ -1,3 +1,4 @@
+# main.py
 from player import Player
 from monster import Monster
 from battle import Battle
@@ -5,20 +6,25 @@ from battle import Battle
 def main():
     print("=== Monster Trainer Game ===")
     player_name = input("Enter your name: ")
+
+    # Create player
     player = Player(player_name)
 
-    # Starter monsters
-    fire_mon = Monster("Flareon", max_health=50, attack=10, speed=7, monster_type="Fire")
-    water_mon = Monster("Aquarion", max_health=45, attack=9, speed=8, monster_type="Water")
+    # Create player's starter monster
+    fire_mon = Monster("Flareon", "Fire", level=1)
+    player.team.append(fire_mon)
+    print(f"{player.name} caught {fire_mon.name}!\n")
 
-    player.catch(fire_mon)
-
-    print("\nYour Team:")
+    print("Your Team:")
     for mon in player.team:
         print(f"- {mon.name} (HP: {mon.health}/{mon.max_health})")
 
-    print("\nA wild Aquarion appeared!")
-    battle = Battle(player.team[0], water_mon)
+    # Create a wild monster for battle
+    wild_mon = Monster("Aquarion", "Water", level=1)
+    print(f"\nA wild {wild_mon.name} appeared!")
+
+    # Start battle
+    battle = Battle(player, fire_mon, wild_mon)
     battle.start()
 
 if __name__ == "__main__":
