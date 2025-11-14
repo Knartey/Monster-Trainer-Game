@@ -13,40 +13,41 @@ Follow these steps to stay synced and avoid Git issues.
 
 ### Step 1: Clone the Repository
 
+```
 git clone https://github.com/Knartey/Monster-Trainer-Game.git
 cd Monster-Trainer-Game
-
+```
 
 ### Step 2 (Optional): Create a Virtual Environment & Install Dependencies
 
-
+```
 python -m venv venv
-
+```
 
 **Activate it:**
 
 * On macOS/Linux:
 
-  
+  ```
   source venv/bin/activate
-  
+  ```
 * On Windows:
 
-  
+  ```
   venv\Scripts\activate
-  
+  ```
 
 Then install all required packages:
 
-
+```
 pip install -r requirements.txt
-
+```
 
 ### Step 3: Run the Game
 
-
+```
 python main.py
-
+```
 
 Then follow the on-screen prompts:
 
@@ -68,15 +69,15 @@ If you already cloned the repository before, you **do not need to delete your lo
 
 Check your branch:
 
-
+```
 git branch
-
+```
 
 Pull the latest updates:
 
-
+```
 git pull origin main
-
+```
 
 This downloads all recent commits, including README updates, new code, or added files.
 
@@ -88,27 +89,27 @@ If Git shows merge conflicts or errors:
 
 **A. Commit or stash your work before pulling:**
 
-
+```
 git add .
 git commit -m "My local changes"
 git pull origin main
-
+```
 
 **Or stash temporarily:**
 
-
+```
 git stash
 git pull origin main
 git stash pop
-
+```
 
 **B. If your local copy is messy or outdated and you don’t need it:**
 
-
+```
 cd ..
 rm -rf Monster-Trainer-Game
 git clone https://github.com/Knartey/Monster-Trainer-Game.git
-
+```
 
 ---
 
@@ -118,15 +119,15 @@ When multiple people are committing:
 
 Always pull before pushing:
 
-
+```
 git pull origin main
-
+```
 
 Then push your changes:
 
-
+```
 git push origin main
-
+```
 
  Commit **small, frequent updates** with clear messages.
 This keeps everyone’s work in sync and prevents overwriting each other’s code.
