@@ -76,21 +76,21 @@ pytest – Unit testing framework
 
 random – Wild encounter and battle randomness
 
- Project Structure
+## Project Structure
+```
 Monster-Trainer-Game/
 │
-├── main.py                # Game entry point
-├── trainer.py             # Trainer class
-├── monster.py             # Monster class
+├── main.py                # Entry point for the game
+├── trainer.py             # Trainer class definition
+├── monster.py             # Monster class definition
 ├── battle.py              # Battle logic and interactions
 │
 ├── tests/
-│   └── test_game.py       # Automated pytest file
+│   └── test_game.py       # Pytest test suite
 │
-├── requirements.txt       # Python dependencies
-├── README.md              # Public documentation (this file)
-└── TEAM_GUIDE.md          # Internal team setup instructions
-
+├── requirements.txt       # Project dependencies
+└── README.md              # Project documentation
+```
  Contributors
 
 Developed by:
