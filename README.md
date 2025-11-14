@@ -22,19 +22,20 @@ The game demonstrates **Object-Oriented Programming (OOP)** principles, includin
 ##  How to Run the Game
 
 ### Step 1: Clone the Repository
-
+```
 git clone https://github.com/Knartey/Monster-Trainer-Game.git
 cd Monster-Trainer-Game
-
+```
 Step 2: Install Dependencies
 
 If you don’t have the required packages installed, run:
-
+```
 pip install -r requirements.txt
-
+```
 Step 3: Start the Game
+```
 python main.py
-
+```
 
 Then follow the on-screen prompts:
 
