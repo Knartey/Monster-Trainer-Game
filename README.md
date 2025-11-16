@@ -95,9 +95,9 @@ Monster-Trainer-Game/
  Contributors
 
 Developed by:
-Ahmed Sachit
-Kabutey Nartey
-Daniel Camacho-Lopez
+Ahmed Sachit,
+Kabutey Nartey,
+Daniel Camacho-Lopez, &
 James Lieske
 
  For INST326: Object-Oriented Programming – Fall 2025
