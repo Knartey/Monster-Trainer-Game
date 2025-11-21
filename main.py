@@ -12,6 +12,7 @@ from move import Move
 from monster import Monster
 from player import Player
 from item import Item
+import random
 
 def create_default_moves():
     """
@@ -113,7 +114,8 @@ def battle(player_monster, opponent_monster):
         opponent_monster (Monster): Opponent's monster.
     """
     turn = 1
-    while not player_monster.is_fainted() and not opponent_monster.is_fainted():
+    caught = False
+    while not player_monster.is_fainted() and not opponent_monster.is_fainted() and caught == False:
         print(f"\n--- Turn {turn} ---")
         print(f"{player_monster.name}: {player_monster.current_hp}/{player_monster.max_hp} HP")
         print(f"{opponent_monster.name}: {opponent_monster.current_hp}/{opponent_monster.max_hp} HP")
@@ -147,8 +149,18 @@ def battle(player_monster, opponent_monster):
                 print(f"{i}. {item}")
             item_choice = input("Enter item number: ")
             if item_choice.isdigit() and 1 <= int(item_choice) <= len(player.inventory):
-                player.use_item(int(item_choice)-1, 0)
-                print(f"Used {player.inventory[int(item_choice)-1].name} on {player_monster.name}!")
+                item_index = int(item_choice) - 1
+                player.use_item(item_index, 0)
+                if item_index == 0:
+                    catch_chance = random.randint(0, 100)
+                    if(catch_chance < 35):
+                        caught = True
+                        print(f"You have successfully caught {opponent_monster.name}!")
+                        player.add_monster(opponent_monster)
+                    else:
+                        print("The Monster Ball failed!")
+                else:
+                    print(f"Used {player.inventory[int(item_choice)-1].name} on {player_monster.name}!")
 
         elif action == "3":
             print(" You successfully ran away!")
@@ -165,6 +177,8 @@ def battle(player_monster, opponent_monster):
     elif opponent_monster.is_fainted():
         print(f"\n--- Battle Finished ---\nYou defeated {opponent_monster.name}!")
         print(f"{player_monster.name} gained 50 XP!")
+    elif caught == True:
+        print(f"\n--- Battle Finished ---n{opponent_monster.name} was caught!")
 
 def main():
     """
