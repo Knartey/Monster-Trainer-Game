@@ -8,7 +8,7 @@ class Monster:
 
     Attributes:
         name (str): Name of the monster.
-        type (str): Type of the monster (e.g., Fire, Water).
+        type (str): Type of the monster (Fire, Water, grass, electric).
         max_hp (int): Maximum HP.
         current_hp (int): Current HP.
         level (int): Monster level.
