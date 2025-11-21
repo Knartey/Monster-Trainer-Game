@@ -1,84 +1,62 @@
 # player.py
 
+from monster import Monster
 from item import Item
 
 class Player:
-    """Represents a player who owns monsters, items, and interacts with the game world."""
+    """
+    Represents the player and manages their team and inventory.
+
+    Attributes:
+        name (str): Player's name.
+        team (list[Monster]): Player's Pokémon team.
+        inventory (list[Item]): List of items the player owns.
+    """
 
     def __init__(self, name):
+        """
+        Initializes a player with a name, empty team, and starter items.
+
+        Args:
+            name (str): Player's name.
+        """
         self.name = name
-        self.inventory = {
-            "Monster ball": 3,
-            "Health potion": 2,
-            "PP potion": 1
-        }
         self.team = []
+        self.inventory = [
+            Item("Monster Ball", quantity=2),
+            Item("Health Potion", heal=30, quantity=2),
+            Item("PP Potion", restore_pp=5, quantity=1)
+        ]
 
-    def catch(self, monster):
-        """Attempt to catch a monster and add it to the team."""
-        if self.inventory["Monster ball"] > 0:
-            self.team.append(monster)
-            self.inventory["Monster ball"] -= 1
-            print(f"{self.name} caught {monster.name}!")
-        else:
-            print("You have no Monster balls left!")
+    def add_monster(self, monster):
+        """
+        Adds a monster to the player's team.
 
-    def train(self, target):
-        """Train and give XP to a monster."""
-        target.xp += target.max_xp * 0.25
-        target.level_up()
+        Args:
+            monster (Monster): Monster to add.
+        """
+        self.team.append(monster)
 
-    def use_item(self, item_name, target):
-        """Use an item from the inventory on a target monster."""
-        if item_name not in self.inventory or self.inventory[item_name] <= 0:
-            print(f"No {item_name}s left!")
-            return
+    def use_item(self, item_index, monster_index):
+        """
+        Uses an item on a specific monster.
 
-        if item_name == "Health potion":
-            item = Item(item_name, heal_amount=30)
-        elif item_name == "PP potion":
-            item = Item(item_name, restore_pp=5)
-        else:
-            print("Unknown item!")
-            return
+        Args:
+            item_index (int): Index of item in inventory.
+            monster_index (int): Index of monster in team.
+        """
+        item = self.inventory[item_index]
+        monster = self.team[monster_index]
+        heal, restore_pp = item.use()
+        monster.heal(heal)
+        for move in monster.get_moves():
+            move.current_pp = min(move.current_pp + restore_pp, move.max_pp)
 
-        item.use(target)
-        self.inventory[item_name] -= 1
+    def has_usable_monsters(self):
+        """
+        Checks if any monsters in the team are alive.
 
-
-    def view_team(self):
-        """Print the player's entire monster team."""
-        print("\nYour Team:")
-        for i, mon in enumerate(self.team):
-            print(f"{i + 1}. {mon.name} (HP: {mon.health}/{mon.max_health}, Lvl {mon.level})")
-
-    def view_inventory(self):
-        """Print the player's inventory items."""
-        print("\nInventory:")
-        for item, qty in self.inventory.items():
-            print(f"- {item}: {qty}")
-
-    def choose_monster(self, index):
-        """Return the monster at the chosen index."""
-        if 0 <= index < len(self.team):
-            return self.team[index]
-        print("Invalid monster index!")
-
-    def switch_monster(self, current_index, new_index):
-        """Switch two monsters in the player's team."""
-        if new_index >= len(self.team) or current_index >= len(self.team):
-            print("Invalid switch indexes.")
-            return
-        self.team[current_index], self.team[new_index] = self.team[new_index], self.team[current_index]
-
-    def add_item(self, item_name, amount=1):
-        """Add an item to the player's inventory."""
-        self.inventory[item_name] = self.inventory.get(item_name, 0) + amount
-
-    def remove_item(self, item_name, amount=1):
-        """Remove an item from the player's inventory."""
-        if item_name in self.inventory and self.inventory[item_name] >= amount:
-            self.inventory[item_name] -= amount
-        else:
-            print("Cannot remove item — not enough quantity.")
-
+        Returns:
+            bool: True if at least one monster has HP > 0.
+        """
+        return any(m.current_hp > 0 for m in self.team)

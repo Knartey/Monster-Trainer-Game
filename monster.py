@@ -1,80 +1,79 @@
 # monster.py
 
-from moves import Move
+from move import Move
 
 class Monster:
-    """Represents a monster with stats, moves, leveling, combat behavior, and status reporting."""
+    """
+    Represents a Pokémon/Monster.
 
-    def __init__(self, id, name, monster_type, health, level, moves):
-        self.id = id
+    Attributes:
+        name (str): Name of the monster.
+        type (str): Type of the monster (e.g., Fire, Water).
+        max_hp (int): Maximum HP.
+        current_hp (int): Current HP.
+        level (int): Monster level.
+        moves (list[Move]): List of Move objects.
+    """
+
+    def __init__(self, name, type_, max_hp, moves, level=1):
+        """
+        Initializes a Monster with name, type, HP, moves, and level.
+
+        Args:
+            name (str): Monster name.
+            type_ (str): Monster type.
+            max_hp (int): Maximum HP.
+            moves (list[Move]): List of Move objects.
+            level (int, optional): Monster level. Defaults to 1.
+        """
         self.name = name
-        self.type = monster_type
-        self.health = health
-        self.max_health = health
+        self.type = type_
+        self.max_hp = max_hp
+        self.current_hp = max_hp
         self.level = level
-        self.moves = moves  # list of Move objects
-        self.xp = 0
-        self.max_xp = 100
-
-
-    # ---------------- BASIC METHODS ----------------
-
-    def assign_moves(self, moves):
-        """Assign a list of moves to the monster."""
         self.moves = moves
 
-    def level_up(self):
-        """Increase monster level when XP reaches threshold."""
-        while self.xp >= self.max_xp:
-            self.level += 1
-            self.xp -= self.max_xp
-            self.max_health += 10
-            self.health = self.max_health
-            print(f"{self.name} leveled up!")
+    def take_damage(self, damage):
+        """
+        Reduces the monster's HP by damage amount.
+
+        Args:
+            damage (int): Damage to apply.
+        """
+        self.current_hp = max(self.current_hp - damage, 0)
 
     def is_fainted(self):
-        """Return True if the monster has fainted."""
-        return self.health <= 0
+        """
+        Checks if the monster has fainted.
 
-    # ---------------- COMBAT METHODS ----------------
-
-    def attack(self, move, target):
-        """Attack another monster using a move."""
-        if move.pp <= 0:
-            print(f"{move.name} has no PP left!")
-            return 0
-
-        damage = move.use()
-        target.take_damage(damage)
-        return damage
-
-    def take_damage(self, amount):
-        """Reduce monster health by a damage amount."""
-        self.health -= amount
-        if self.health < 0:
-            self.health = 0
+        Returns:
+            bool: True if current_hp <= 0, else False.
+        """
+        return self.current_hp <= 0
 
     def heal(self, amount):
-        """Heal the monster by a given amount."""
-        self.health += amount
-        if self.health > self.max_health:
-            self.health = self.max_health
+        """
+        Heals the monster by a specified amount.
 
-    # ---------------- PROGRESSION METHODS ----------------
+        Args:
+            amount (int): HP to restore.
+        """
+        self.current_hp = min(self.current_hp + amount, self.max_hp)
 
-    def gain_xp(self, amount):
-        """Add XP and handle leveling up."""
-        self.xp += amount
-        self.level_up()
+    def get_moves(self):
+        """
+        Returns the list of monster moves.
 
-    def restore_pp(self, move_name, amount):
-        """Restore PP for a specific move by name."""
-        for m in self.moves:
-            if m.name == move_name:
-                m.restore_pp(amount)
+        Returns:
+            list[Move]: Monster's moves.
+        """
+        return self.moves
 
-    # ---------------- INFO METHODS ----------------
+    def __str__(self):
+        """
+        Returns a string representation of the monster.
 
-    def get_status(self):
-        """Return a readable string showing monster status."""
-        return f"{self.name} — HP: {self.health}/{self.max_health}, Lvl {self.level}, XP: {self.xp}/{self.max_xp}"
+        Returns:
+            str: Monster name, type, HP, and level.
+        """
+        return f"{self.name} ({self.type}) - HP {self.current_hp}/{self.max_hp}, Lvl {self.level}"
