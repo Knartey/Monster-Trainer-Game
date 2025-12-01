@@ -21,6 +21,7 @@ def create_default_moves():
     Returns:
         dict: Dictionary mapping move names to Move objects.
     """
+    #Each move has a name, power, and max PP(# of times a move can be used)
     return {
         "Flame Burst": Move("Flame Burst", power=10, max_pp=10),
         "Blaze Kick": Move("Blaze Kick", power=8, max_pp=15),
@@ -40,6 +41,7 @@ def create_monsters(moves):
     Returns:
         list: List of Monster objects.
     """
+    #Each monsters name, type, HP,and list of moves
     return [
         Monster("Flareon", "Fire", 60, [moves["Flame Burst"], moves["Blaze Kick"]]),
         Monster("Aquarion", "Water", 55, [moves["Bubble Beam"], moves["Aqua Jet"]]),
@@ -79,9 +81,11 @@ def choose_monster(monsters):
     """
     while True:
         print("\n=== Choose Your Pokémon ===")
+        #Display avaiable monsters with their current HP
         for i, m in enumerate(monsters, 1):
             print(f"{i}. {m.name} ({m.type}) - HP {m.current_hp}")
         choice = input("Enter Pokémon number: ")
+        #Validate input
         if choice.isdigit() and 1 <= int(choice) <= len(monsters):
             return monsters[int(choice)-1]
         print(" Invalid Pokémon! Try again.")
@@ -98,9 +102,11 @@ def choose_opponent(monsters):
     """
     while True:
         print("\n=== Choose an Opponent Pokémon ===")
+                #Display avaiable monsters with their current HP
         for i, m in enumerate(monsters, 1):
             print(f"{i}. {m.name} ({m.type}) - HP {m.current_hp}")
         choice = input("Enter Pokémon number: ")
+        #Validate input
         if choice.isdigit() and 1 <= int(choice) <= len(monsters):
             return monsters[int(choice)-1]
         print(" Invalid Pokémon! Try again.")
@@ -113,8 +119,10 @@ def battle(player_monster, opponent_monster):
         player_monster (Monster): Player's active monster.
         opponent_monster (Monster): Opponent's monster.
     """
-    turn = 1
-    caught = False
+    turn = 1 #Keeps track of the turn number
+    caught = False 
+
+    #Battle loop continues until one monster faints or is caught
     while not player_monster.is_fainted() and not opponent_monster.is_fainted() and caught == False:
         print(f"\n--- Turn {turn} ---")
         print(f"{player_monster.name}: {player_monster.current_hp}/{player_monster.max_hp} HP")
