@@ -102,7 +102,7 @@ def choose_opponent(monsters):
     """
     while True:
         print("\n=== Choose an Opponent Pokémon ===")
-                #Display avaiable monsters with their current HP
+        #Display avaiable monsters with their current HP
         for i, m in enumerate(monsters, 1):
             print(f"{i}. {m.name} ({m.type}) - HP {m.current_hp}")
         choice = input("Enter Pokémon number: ")
