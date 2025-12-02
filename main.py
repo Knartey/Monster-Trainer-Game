@@ -28,7 +28,9 @@ def create_default_moves():
         "Bubble Beam": Move("Bubble Beam", power=7, max_pp=10),
         "Aqua Jet": Move("Aqua Jet", power=9, max_pp=10),
         "Rock Smash": Move("Rock Smash", power=12, max_pp=8),
-        "Thunder Shock": Move("Thunder Shock", power=10, max_pp=10)
+        "Thunder Shock": Move("Thunder Shock", power=10, max_pp=10),
+        "Tackle": Move("Tackle", power=5, max_pp=25),
+
     }
 
 def create_monsters(moves):
@@ -43,10 +45,10 @@ def create_monsters(moves):
     """
     #Each monsters name, type, HP,and list of moves
     return [
-        Monster("Flareon", "Fire", 60, [moves["Flame Burst"], moves["Blaze Kick"]]),
-        Monster("Aquarion", "Water", 55, [moves["Bubble Beam"], moves["Aqua Jet"]]),
-        Monster("Terrax", "Rock", 80, [moves["Rock Smash"]]),
-        Monster("Voltaris", "Electric", 50, [moves["Thunder Shock"]])
+       Monster("Flareon", "Fire", 60, [moves["Flame Burst"], moves["Blaze Kick"], moves["Tackle"]]),
+       Monster("Aquarion", "Water", 55, [moves["Bubble Beam"], moves["Aqua Jet"], moves["Tackle"]]),
+       Monster("Terrax", "Rock", 80, [moves["Rock Smash"], moves["Tackle"]]),
+       Monster("Voltaris", "Electric", 50, [moves["Thunder Shock"], moves["Tackle"]]),
     ]
 
 def display_menu():
@@ -217,9 +219,9 @@ def main():
             for item in player.inventory:
                 print(f" - {item}")
 
-            opponent_monster = choose_opponent(monsters)
-            print(f"\nA wild {opponent_monster.name} appeared!")
-            battle(player_monster, opponent_monster)
+          opponent_monster = random.choice(monsters)
+          print(f"\nA wild {opponent_monster.name} appeared!")
+          battle(player_monster, opponent_monster)
 
             print("\nYour Team after battle:")
             for m in player.team:
