@@ -218,10 +218,10 @@ def main():
             print("\nYour Inventory:")
             for item in player.inventory:
                 print(f" - {item}")
-
-          opponent_monster = random.choice(monsters)
-          print(f"\nA wild {opponent_monster.name} appeared!")
-          battle(player_monster, opponent_monster)
+            
+            opponent_monster = random.choice(monsters)
+            print(f"\nA wild {opponent_monster.name} appeared!")
+            battle(player_monster, opponent_monster)
 
             print("\nYour Team after battle:")
             for m in player.team:
