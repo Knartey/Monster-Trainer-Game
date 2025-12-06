@@ -1,10 +1,4 @@
-"""
-Monster Trainer Game
--------------------
-A text-based Pokémon-style game where players can choose monsters, battle opponents,
-and use items. Demonstrates object-oriented programming, class interactions,
-and user input handling in Python.
-"""
+# main.py
 
 from move import Move
 from monster import Monster
@@ -14,24 +8,18 @@ import random
 
 
 def create_default_moves():
-    """
-    Creates the default moves for monsters.
-    """
     return {
-        "Flame Burst": Move("Flame Burst", power=10, max_pp=10),
-        "Blaze Kick": Move("Blaze Kick", power=8, max_pp=15),
-        "Bubble Beam": Move("Bubble Beam", power=7, max_pp=10),
-        "Aqua Jet": Move("Aqua Jet", power=9, max_pp=10),
-        "Rock Smash": Move("Rock Smash", power=12, max_pp=8),
-        "Thunder Shock": Move("Thunder Shock", power=10, max_pp=10),
-        "Tackle": Move("Tackle", power=5, max_pp=25),
+        "Flame Burst": Move("Flame Burst", power=10, max_pp=10, type_="Fire"),
+        "Blaze Kick": Move("Blaze Kick", power=8, max_pp=15, type_="Fire"),
+        "Bubble Beam": Move("Bubble Beam", power=7, max_pp=10, type_="Water"),
+        "Aqua Jet": Move("Aqua Jet", power=9, max_pp=10, type_="Water"),
+        "Rock Smash": Move("Rock Smash", power=12, max_pp=8, type_="Rock"),
+        "Thunder Shock": Move("Thunder Shock", power=10, max_pp=10, type_="Electric"),
+        "Tackle": Move("Tackle", power=8, max_pp=25, type_="Normal"),
     }
 
 
 def create_monsters(moves):
-    """
-    Creates the default monsters for the game.
-    """
     return [
         Monster("Flareon", "Fire", 60, [moves["Flame Burst"], moves["Blaze Kick"], moves["Tackle"]]),
         Monster("Aquarion", "Water", 55, [moves["Bubble Beam"], moves["Aqua Jet"], moves["Tackle"]]),
@@ -52,8 +40,7 @@ def display_instructions():
     print("- Choose your Pokémon.")
     print("- Choose an opponent Pokémon.")
     print("- In battle, you can Attack, Use Item, or Run.")
-    print("- Use items to heal or restore PP.")
-    print("- Gain XP to level up your Pokémon.")
+    print("- Type advantages affect damage!")
 
 
 def choose_monster(monsters):
@@ -105,14 +92,34 @@ def battle(player_monster, opponent_monster):
 
             if move_choice.isdigit() and 1 <= int(move_choice) <= len(player_monster.moves):
                 move = player_monster.moves[int(move_choice) - 1]
-                damage = move.use_move()
-                opponent_monster.take_damage(damage)
-                print(f"{player_monster.name} used {move.name} and dealt {damage} damage!")
 
+                base_damage = move.use_move()
+                multiplier = move.get_multiplier(opponent_monster.type)
+                damage = int(base_damage * multiplier)
+
+                opponent_monster.take_damage(damage)
+
+                print(f"{player_monster.name} used {move.name}! ({move.type} vs {opponent_monster.type})")
+                if multiplier > 1:
+                    print("It's super effective!")
+                elif multiplier < 1:
+                    print("It's not very effective...")
+                print(f"It dealt {damage} damage!")
+
+            # Opponent counterattack
             opp_move = opponent_monster.moves[0]
-            damage = opp_move.use_move()
+            base_damage = opp_move.use_move()
+            multiplier = opp_move.get_multiplier(player_monster.type)
+            damage = int(base_damage * multiplier)
+
             player_monster.take_damage(damage)
-            print(f"{opponent_monster.name} used {opp_move.name} and dealt {damage} damage!")
+
+            print(f"{opponent_monster.name} used {opp_move.name}! ({opp_move.type} vs {player_monster.type})")
+            if multiplier > 1:
+                print("It's super effective!")
+            elif multiplier < 1:
+                print("It's not very effective...")
+            print(f"It dealt {damage} damage!")
 
         elif action == "2":
             print("\nChoose an Item:")
@@ -145,7 +152,6 @@ def battle(player_monster, opponent_monster):
 
         turn += 1
 
-    # Final result
     if player_monster.is_fainted():
         print(f"\n--- Battle Finished ---\n{player_monster.name} fainted! You lost.")
     elif opponent_monster.is_fainted():
