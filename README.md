@@ -109,8 +109,7 @@ For INST326: Object-Oriented Programming – Fall 2025
 
 ## Video presentation
 
-A short demo and walkthrough of gameplay and design will be linked here after recording:  
-[Video Link – to be added soon]
+A short demo and walkthrough of gameplay and design video link:                             https://drive.google.com/file/d/1Z7P24leAHkrbYbvXNSHl69s0hAzc3QY0/view?usp=drive_link 
 
 ## Future development ideas
 
